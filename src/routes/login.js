@@ -36,7 +36,7 @@ const login = route.post("/api/login", async (req, res) => {
   res
     .header("Autrhorization", token)
     .status(200)
-    .json({ auth: true, msg: "success" });
+    .json({ auth: true, msg: "success", token: token });
 });
 
 export default login;

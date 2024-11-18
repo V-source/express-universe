@@ -7,6 +7,7 @@
 - [x] inicio de sesion de usuario admin desde apk *(**APK**)*
 
 > [!ESTATUS]: PENDIENTE
+- [ ] guardar token. *(**DB**)*
 - [ ] registro de usuarios. *(**DB**)*
 - [ ] validar token de autenticacion *(**SERVER**)*
 - [ ] registro de usuario desde apk *(**APK**)*
