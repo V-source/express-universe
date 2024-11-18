@@ -1,19 +1,42 @@
 import { Router } from "express";
 import { UserModel } from "../database/user.schema.js";
+import { createToken } from "../utils/token.util.js";
 const route = Router();
 
-const login = route.get("/api/login", async (req, res) => {
-  // const data = { email, password } = req.body;
-  // console.log(data);
-  const user = await UserModel.findOne({email: 'villejsdev@gmail.com'}).populate('role').populate('permissions').exec() 
-  console.log(user)
-  // validar usuario
-  if(!user) {
-    return res.json({msg: 'no eres usuario'})
+const login = route.post("/api/login", async (req, res) => {
+  const errors = {
+    login: ''
   }
-  return res.status(200).json(user)
-  // genera token
-  //
+  const { email, password } = req.body;
+  const user = await UserModel.findOne({ email: email });
+// ──────────────────────────────────────────────────────────────────────
+// ╭─────────────────────────────────────────────────────────╮
+// │                     VALIDAR USUARIO                     │
+// ╰─────────────────────────────────────────────────────────╯
+  if (!user) {
+    errors.login = ['usuario y/o contraseña inválidos']
+    return res.status(401).json(errors);
+  }
+// ──────────────────────────────────────────────────────────────────────
+// ╭─────────────────────────────────────────────────────────╮
+// │                   VALIDAR CONTRASEÑA                    │
+// ╰─────────────────────────────────────────────────────────╯
+  if (user.password !== password) {
+    errors.login = ['usuario y/o contraseña inválidos']
+    return res.status(401).json(errors);
+  }
+// ──────────────────────────────────────────────────────────────────────
+// ╭─────────────────────────────────────────────────────────╮
+// │                      GENERA TOKEN                       │
+// ╰─────────────────────────────────────────────────────────╯
+  const token = createToken(user._id);
+  console.log(token)
+
+// ──────────────────────────────────────────────────────────────────────
+  res
+    .header("Autrhorization", token)
+    .status(200)
+    .json({ auth: true, msg: "success" });
 });
 
-export default login
+export default login;
