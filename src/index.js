@@ -27,7 +27,9 @@ const logStream = fs.createWriteStream(join(__dirname, process.env.LOGS_DIR), {
 // ╰─────────────────────────────────────────────────────────╯
 server.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: '*',
+    // origin: "http://localhost:5173",
+    // origin: "exp://192.168.100.251:8081",
     credentials: true,
   }),
 );
