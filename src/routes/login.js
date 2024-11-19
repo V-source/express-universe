@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UserModel } from "../database/user.schema.js";
 import { createToken } from "../utils/token.util.js";
+import { TokenModel } from "../database/token.db.js";
 const route = Router();
 
 const login = route.post("/api/login", async (req, res) => {
@@ -29,12 +30,15 @@ const login = route.post("/api/login", async (req, res) => {
 // ╭─────────────────────────────────────────────────────────╮
 // │                      GENERA TOKEN                       │
 // ╰─────────────────────────────────────────────────────────╯
-  const token = createToken(user._id);
-  console.log(token)
+
+const token = createToken(user._id);
+  // almacenar token
+const newToken = new TokenModel({client: user, token: token})
+await newToken.save() 
 
 // ──────────────────────────────────────────────────────────────────────
   res
-    .header("Autrhorization", token)
+    .header("Authorization", "Bearer " + token)
     .status(200)
     .json({ auth: true, msg: "success", token: token });
 });
