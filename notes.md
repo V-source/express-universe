@@ -1,19 +1,26 @@
 > [!STATUS]: TERMINADO
-- [x] conexión a contenedor de mongo
-- [x] configuración básica del servidor
-- [x] middleware para manejo de errores globales
-- [x] registro de admin. *(**DB**)*
-- [x] crear token de autenticacion *(**SERVER**)*
-- [x] inicio de sesion de usuario admin desde apk *(**APK**)*
-
+> - [x] conexión a contenedor de mongo
+> - [x] configuración básica del servidor
+> - [x] middleware para manejo de errores globales
+> - [x] registro de admin. *(**DB**)*
+> - [x] crear token de autenticacion *(**SERVER**)*
+> - [x] inicio de sesion de usuario admin desde apk *(**APK**)*
+> - [x] guardar token. *(**DB**)*
+> - [x] schema instalaciones.
+> - [x] schema usuarios.
+> - [x] schema admin.
+> - [x] schema token.
+> - [x] ruta login
 > [!ESTATUS]: PENDIENTE
-- [ ] guardar token. *(**DB**)*
-- [ ] registro de usuarios. *(**DB**)*
-- [ ] validar token de autenticacion *(**SERVER**)*
-- [ ] registro de usuario desde apk *(**APK**)*
-- [ ] interfaz de usuario admin desde apk **APK**
-- [ ] interfaz de usuario final (instaladores) desde *(**APK**)*
-- [ ] interfaz web de usuario admin y final *(**WEB**)*
+> - [ ] registro de usuarios. *(**DB/ADMINISTRADOR**)*
+> - [ ] registro de clientes. _(DB/CLIENTES ULMINA MILLA)_
+> - [ ] validar token de autenticacion *(**SERVER**)*
+> - [ ] registro de usuario desde apk *(**APK**)*
+> - [ ] interfaz de usuario admin desde apk **APK**
+> - [ ] interfaz de usuario final (instaladores) desde *(**APK**)*
+> - [ ] interfaz web de usuario admin y final *(**WEB**)*
+> - [ ] ruta logout
+> - [ ] ruta instalaciones
 
 
 ---
@@ -28,14 +35,18 @@
 > ** `findOne()` retorna un objeto o si no hay coincidencias retorna `null`.
 
 
+> [!NOTAS IMPORTANTES]: MONGOOSE:eliminar-todo
+> no se usa new para `deleteMany`.
+> *ejemplo:* `const delToken = await TokenModel.deleteMany({ client: user._id })`
+
 
 ---
 
 # ATOMICS
 
 > [!ESTATUS]: PENDIENTE
-- [x] seed de usuario admin y activador.
-- [x] enviar token.
-- [x] validar usuario.
-- [ ] almacenar token.
-- [ ] 
+> - [x] seed de usuario admin y activador.
+> - [x] enviar token.
+> - [x] validar usuario.
+> - [ ] almacenar token.
+> - [ ] 
