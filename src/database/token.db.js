@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose"
 
 const TokenSchema = new Schema(
   {
-    client: {type: Schema.Types.ObjectId, ref: 'User'},
+    user: {type: Schema.Types.ObjectId, ref: 'User'},
     token: {type: String},
   },
   {

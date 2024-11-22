@@ -1,9 +1,21 @@
 import { Router } from "express";
-import { TokenModel } from "../database/token.db";
+import { TokenModel } from "../database/token.db.js";
 
-const logOut = Router()
+const logout = Router()
 
-logOut.post('/api/logOut', async (req, res) => {
-  const delToken = await TokenModel.deleteMany({ client: user._id })
-  console.log(delToken)
+logout.post('/api/logout', async (req, res) => {
+  const data = req.body
+  const tokenId = data.token.split('|').pop()
+  console.log(tokenId) 
+  const delToken = await TokenModel.deleteOne({_id: tokenId})
+
+  if(delToken) {
+    console.log(delToken)
+    return res.status(200).json({msg: 'logout success'}) 
+  } 
+  console.log('error')
+  return res.status(400).json({msg: 'error al eliminar el token'})
 })
+
+
+export default logout

@@ -9,6 +9,8 @@ import express from "express";
 import login from "./routes/login.js";
 import initDb from "./database/index.db.js";
 import createRolesAndPermissions from "./database/seed.js";
+import instalation from "./routes/instalation.js";
+import logout from "./routes/logout.js";
 
 // ──────────────────────────────────────────────────────────────────────
 // ╭─────────────────────────────────────────────────────────╮
@@ -56,6 +58,8 @@ server.get("/", (req, res) => {
 });
 
 server.use(login)
+server.use(instalation)
+server.use(logout)
 
 // ──────────────────────────────────────────────────────────────────────
 // ╭─────────────────────────────────────────────────────────╮
