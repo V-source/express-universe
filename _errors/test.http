@@ -1,0 +1,10 @@
+GET http://localhost:3000/
+
+
+###
+GET http://localhost:3000/read-file/1234
+
+
+###
+POST http://localhost:3000/get-user/kkk
+
