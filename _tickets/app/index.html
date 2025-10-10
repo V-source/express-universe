@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Socket.io Client</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    #messages {
+      height: 300px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      overflow-y: scroll;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 8px 15px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #cccccc;
+    }
+  </style>
+  <!-- Incluye el cliente de Socket.io -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+
+<body>
+  <h1>Socket.io Client</h1>
+
+  <div>
+    <button id="connectBtn">Conectar</button>
+    <button id="disconnectBtn" disabled>Desconectar</button>
+    <button id="sendBtn" disabled>Enviar ID de canal (500)</button>
+    <button id="sendBtn2" disabled>Enviar ID de canal (400)</button>
+  </div>
+
+  <div id="messages"></div>
+
+  <script>
+    const connectBtn = document.getElementById("connectBtn");
+    const disconnectBtn = document.getElementById("disconnectBtn");
+    const sendBtn = document.getElementById("sendBtn");
+    const messagesDiv = document.getElementById("messages");
+
+    let socket;
+    const channelId = 500;
+    const responseChannel = "response";
+
+    function logMessage(message) {
+      const messageElement = document.createElement("div");
+      messageElement.textContent = message;
+      messagesDiv.appendChild(messageElement);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    connectBtn.addEventListener("click", () => {
+      // Conexión con Socket.io (nota que usa http en lugar de ws)
+      socket = io("http://localhost:5000", {
+        autoConnect: true,
+        reconnection: true,
+      });
+
+      socket.on("connect", () => {
+        socket.emit("identify", "500");
+
+        logMessage("Conexión establecida con el servidor Socket.io");
+
+        connectBtn.disabled = true;
+        disconnectBtn.disabled = false;
+        sendBtn.disabled = false;
+        sendBtn2.disabled = false;
+      });
+
+      socket.on("massive", (data) => {
+        alert(`Respuesta recibida: ${JSON.stringify(data)}`);
+        logMessage(`MENSAJE BROADCAST: ${JSON.stringify(data)}`);
+      });
+      // Escucha el canal 'response'
+      socket.on("response", (data) => {
+        logMessage(`Respuesta recibida: ${JSON.stringify(data)}`);
+      });
+
+      socket.on("disconnect", () => {
+        logMessage("Conexión cerrada");
+        connectBtn.disabled = false;
+        disconnectBtn.disabled = true;
+        sendBtn.disabled = true;
+      });
+
+      socket.on("connect_error", (error) => {
+        logMessage(`Error de conexión: ${error.message}`);
+      });
+
+      socket.on("500", (data) => {
+        alert(`Respuesta recibida: ${JSON.stringify(data)}`);
+      });
+    });
+
+    disconnectBtn.addEventListener("click", () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    });
+
+    sendBtn.addEventListener("click", () => {
+      if (socket && socket.connected) {
+        const message = {
+          channel: channelId,
+          data: `Este es un mensaje para el canal ${channelId}`,
+          timestamp: new Date().toISOString(),
+        };
+
+        socket.emit(channelId, message);
+        logMessage(
+          `Mensaje enviado al canal ${channelId}: ${JSON.stringify(message)}`,
+        );
+      } else {
+        logMessage("No hay conexión activa");
+      }
+    });
+  </script>
+</body>
+
+</html>
