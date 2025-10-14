@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import express from "express";
 import { Server } from "socket.io";
 import { createServer } from "node:http";
+import serverConfig from "./config.js";
 
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -16,6 +17,7 @@ const logStream = fs.createWriteStream(join(__dirname, "../access.log"), {
   flags: "a",
 });
 
+serverConfig(app);
 // Configuración de CORS para Express
 
 app.disable("x-powered-by");
