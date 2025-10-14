@@ -13,9 +13,9 @@ export async function db1() {
     });
     console.log(`Conectado a la base de datos: ${db1.connections[0].name}`);
     //  ── mark: seeder ────────────────────────────────────────────────────
-    seeder(Roles, rolesSeed, "role");
-    seeder(User, usersSeed, "email");
-    seeder(Department, departmentsSeed, "name");
+    // seeder(Roles, rolesSeed, "role");
+    // seeder(User, usersSeed, "email");
+    // seeder(Department, departmentsSeed, "name");
     // seeder(Tickets, ticketsSeed, "email");
     //   ──────────────────────────────────────────────────────────────────────
   } catch (error) {
