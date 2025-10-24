@@ -6,7 +6,8 @@
     "mongoose": "node --watch ./_mongoose/src/index.js",
     "errors": "node --watch ./_errors/index.js",
     "lastmile": "node --watch ./last-mile/src/index.js",
-    "tickets": "node --watch ./_tickets/app/src/index.js"
+    "tickets": "node --watch ./_tickets/app/src/index.js",
+    "eFactory": "node --watch ./_errors/factories/errorFactorie.js"
   },
   "keywords": [],
   "author": "",

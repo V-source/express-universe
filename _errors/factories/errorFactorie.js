@@ -11,9 +11,9 @@ const withTask = (task) => ({ tryingTo: task });
 const withMessage = (message) => ({ message });
 const withModule = (module) => ({ module });
 const withOrigin = (err) => ({
-  origin: err.stack.split("\n")[1]?.trim()
-  // filePath: fileURLToPath(import.meta.url),
-  // fileName: basename(fileURLToPath(import.meta.url)),
+  origin: err.stack.split("\n")[1]?.trim(),
+  filePath: fileURLToPath(import.meta.url),
+  fileName: basename(fileURLToPath(import.meta.url)),
 });
 const withErrorObject = (errorObject) => ({
   errorObject,
@@ -152,7 +152,7 @@ export function coreModuleError({task, module, message },err) {
 
 // console.time("logTrace");
 
-// log();
+log();
 
 // console.timeEnd("logTrace");
 // dbError.log();
