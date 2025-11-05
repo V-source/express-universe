@@ -4,19 +4,15 @@ const userStructure = {
   password: "",
 };
 
-
 export default function createUserEntity(data) {
   const validatedData = validateEntity(data, userStructure);
-  
+
   return Object.freeze({
     ...validatedData,
   });
 }
 
-
-
 function validateEntity(entryData, structure) {
-
   let missingKeys = getMissingKeys(entryData, structure);
   if (missingKeys) throw new ValidationError("Missing keys", missingKeys);
 
@@ -28,14 +24,10 @@ function validateEntity(entryData, structure) {
   };
 }
 
-
-
-
 // building block
 function isEmpty(value) {
   return value === undefined || value === null || value === "";
 }
-
 
 // building block
 function getEmptyFields(obj, structure) {
@@ -50,7 +42,6 @@ function getEmptyFields(obj, structure) {
 
   return Object.keys(emptyValues).length > 0 ? emptyValues : false;
 }
-
 
 /**
  * Comprueba si faltan claves requeridas y devuelve un objeto de errores.
@@ -74,7 +65,6 @@ function getMissingKeys(entryData, structure) {
   return Object.keys(emptyKeys).length > 0 ? emptyKeys : false;
 }
 
-
 class ValidationError extends Error {
   constructor(message, details) {
     super(message);
@@ -86,3 +76,44 @@ class ValidationError extends Error {
 // NOTE: EL SEGUNDO PARAMETRO DE .REDUCE(CALLBACK, INITIALVALUE)
 // - El initialValue es el valor que se asigna al acumulador (el primer argumento de la función callback) en la primera iteración del reduce.
 // - Al proporcionar un initialValue, evitas errores si intentas usar reduce() en un array vacío, y garantizas que el acumulador tenga el tipo correcto desde el inicio, haciendo el código más predecible y robusto.
+//
+
+// recibidos de una peticion por decir un ejemplo
+const fieldsToValidate = {
+  name: [userNameValidator],
+  email: ['isEmpty', 'isType', 'isMinLength', 'isMaxLength'],
+  password: ['isEmpty', 'isType', 'isMinLength', 'isMaxLength'],
+};
+
+function validateRouler(fieldsToValidate) {
+ // recorre el objeto fieldsToValidate y llama a las funciones correspondientes en su arreglo
+  // cada funcion es un bloque de validacion
+  // cada bloque de validacion retorna un error
+  // cada vuelta del recorrido debe hacer:
+  // fieldsToValidate[key].map(e => e())
+  //   
+}
+
+
+// esto es un ejemplo de un aggregator o bloque construido de otros pequ;os para validar campos
+// un validador personalizado para un campo especifico con la intencion de no pasar un arreglo de bloqes individuales.
+function userNameValidator(value) {
+  // incompleto
+  const validate = {
+    isEmpty(value) {
+      // logic
+    },
+    isType(value) {
+      // logic
+    },
+    isMinLength(value) {
+      // logic
+    },
+    isMaxLength(value) {
+      // logic
+    },
+  };
+
+  validate.isEmpty(value);
+  validate.isType(value);
+}
