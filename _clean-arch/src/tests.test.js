@@ -5,7 +5,7 @@ import server from "./index.js";
 // Define los datos que quieres enviar
 const newProduct = {
   name: "pencil",
-  price: -10,
+  price: 10,
 };
 
 describe(">>> SERVICE: Crear producto", () => {
@@ -36,23 +36,22 @@ describe(">>> SERVICE: Crear producto", () => {
 
     // ✅ Aserciones de Vitest
     expect(response.status).toBeOneOf([201, 422]);
+    console.log(response.body)
     // expect(response.status).toBe(422);
-    if (response.status === 201) {
-      // Caso de éxito (201 Created)
-      console.log(response.body)
-      // expect(response.body).toHaveProperty("msg", "Issue created");
-    } else if (response.status === 422) {
-      // Caso de fallo de validación (422 Unprocessable Entity)
-      console.log(response.body)
-      // expect(response.body).toEqual({
-      //   message:
-      //     "Los datos proporcionados no son válidos. Por favor, revisa los mensajes de error específicos debajo de cada campo e intenta corregirlos.",
-      //   errors: {
-      //     name: ["nombre muy corto"],
-      //     description: ["descriptio is required"],
-      //   },
-      // });
-    }
+    // if (response.status === 201) {
+    //   // Caso de éxito (201 Created)
+    //   expect(response.body).toHaveProperty("msg", "Issue created");
+    // } else if (response.status === 422) {
+    //   // Caso de fallo de validación (422 Unprocessable Entity)
+    //   expect(response.body).toEqual({
+    //     message:
+    //       "Los datos proporcionados no son válidos. Por favor, revisa los mensajes de error específicos debajo de cada campo e intenta corregirlos.",
+    //     errors: {
+    //       name: ["nombre muy corto"],
+    //       description: ["descriptio is required"],
+    //     },
+    //   });
+    // }
 
     // expect(response.status).toBe(422);
     // expect(response.body.data).toEqual(expect.any(Object)); // Si esperas un objeto de la DB
