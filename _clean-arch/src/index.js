@@ -2,6 +2,9 @@ import express from "express";
 import productEntity, {
   productLayout,
 } from "./domain2/entities/product.entity.js";
+import ProductRepository from "./domain/repositories/ProductReposisrory.js";
+import CreateProductUseCase from "./domain2/useCases/createProduct.js";
+import ProductDbRepository from "./domain2/application/DbRepository.js";
 
 const server = express();
 const port = process.env.PORT || 2000;
@@ -9,39 +12,30 @@ const port = process.env.PORT || 2000;
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
-const productDataFromReqBody = { name: "pencil", price: 1 };
+// const productDataFromReqBody = {
+//   name: "pencil",
+//   price: -10,
+//   sku: "13GCH5U8",
+//   stock: 10,
+// };
 
+// const producto1 = crearProducto.execute(productDataFromReqBody);
 //solo por propositos de test
-server.post("/products", (req, res) => {
-  let simulaProductoCreado = useCase_createProduct(req.body);
-  if (simulaProductoCreado) {
-    res.status(201).json(simulaProductoCreado);
+server.post("/products", async (req, res) => {
+  const productDb = new ProductDbRepository();
+  const crearProducto = new CreateProductUseCase(productDb);
+  const producto = await crearProducto.execute(req.body);
+  if (producto) {
+    return res.status(201).json({ msg: "Producto creado", data: producto });
   }
+  throw new Error("Producto no creadoooooo");
 });
 
 // note: solo se estan manejando errores por ahora
 server.use((err, req, res, next) => {
   console.log(err);
-  res.status(422).json({ errors: err.errors });
+  return res.status(422).json({ msg: err.message, errors: err.errors });
 });
-
-// ╭─────────────────────────────────────────────────────────╮
-// │                      CASOS DE USO                       │
-// ╰─────────────────────────────────────────────────────────╯
-// CREAR PRODUCTO
-function useCase_createProduct(values) {
-  let product = productEntity(values);
-  // interfaz para guardar en la base de datos
-  return product;
-}
-
-function compositeUseCase_createProduct(values) {
-  return {
-    save: () => { },
-    update: () => { },
-    delete: () => { },
-  };
-}
 
 export default server;
 

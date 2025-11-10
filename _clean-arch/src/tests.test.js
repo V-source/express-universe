@@ -1,29 +1,51 @@
-
 import request from "supertest";
 import server from "./index.js";
 
 // Define los datos que quieres enviar
-const newProduct = {
+const badProductData = {
   name: "pencil",
-  price: 10,
+  price: 0,
+  sku: "13GCH5U8",
+  stock: 10,
 };
 
-describe(">>> SERVICE: Crear producto", () => {
-  // test("GET /api/issues listar todos los issues", async () => {
-  //   const response = await request(server)
-  //     .get(ISSUES.ALL)
-  //     .expect("Content-Type", /json/)
-  //     .set("Accept", "application/json")
-  //     .expect(200)
-  //     .expect({ msg: "Issues list", data: [] });
-  // });
-
-  test("POST /products  create a new issue (201)", async () => {
+const correctProductData = {
+  name: "pencil2",
+  price: 10,
+  sku: "12GCH5U9",
+  stock: 10,
+};
+function descriptor(str) {
+  let j = " ******************* ";
+  let descritption = j.concat(str.toUpperCase()).concat(j);
+  return descritption;
+  // return `******************* ${str.toUpperCase()} *******************`
+}
+describe(descriptor("Servicio de productos"), () => {
+  it("should return an 422 error", async () => {
     const response = await request(server)
-      .post('/products')
+      .post("/products")
 
       // 🔑 PASO CLAVE: Envía el objeto JSON directamente con .send()
-      .send(newProduct)
+      .send(badProductData)
+
+      // Especifica que esperas una respuesta JSON
+      .expect("Content-Type", /json/)
+
+      // Envía el header Accept (opcional, pero buena práctica)
+      .set("Accept", "application/json");
+    // ✅ Aserciones de Vitest
+    expect(response.status).toBe(422);
+    console.log(response.status);
+    console.log(response.body);
+  });
+
+  it("should return an 201", async () => {
+    const response = await request(server)
+      .post("/products")
+
+      // 🔑 PASO CLAVE: Envía el objeto JSON directamente con .send()
+      .send(correctProductData)
 
       // Especifica que esperas una respuesta JSON
       .expect("Content-Type", /json/)
@@ -35,8 +57,10 @@ describe(">>> SERVICE: Crear producto", () => {
     // .expect(201);
 
     // ✅ Aserciones de Vitest
-    expect(response.status).toBeOneOf([201, 422]);
-    console.log(response.body)
+    expect(response.status).toBe(201);
+    console.log(response.status);
+    console.log(response.body);
+
     // expect(response.status).toBe(422);
     // if (response.status === 201) {
     //   // Caso de éxito (201 Created)

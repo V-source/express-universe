@@ -7,17 +7,8 @@ export default function entity(values, layout) {
   let newError = new Error("Campos invalidos o mal formados");
   if (Object.keys(errors).length > 0) {
     newError.errors = { ...errors };
-    // throw newError;
+    throw newError;
   }
-
-  if (values?.email) {
-    if (isEmail(values.email)) {
-      newError.errors = {};
-      isEmail(values.email) && (newError.errors.email = isEmail(values.email));
-      throw newError;
-    }
-  }
-
   // retorna objeto con errors: en null o con los errores
   return {
     errors: Object.keys(errors).length > 0 ? newError : null,
@@ -28,6 +19,7 @@ export default function entity(values, layout) {
 // ╭─────────────────────────────────────────────────────────╮
 // │              ESTRUCTURAS DE LAS ENTIDADES               │
 // ╰─────────────────────────────────────────────────────────╯
+// patron de Validación Basada en Esquemas (Schema-based Validation)
 export function userLayout() {
   return {
     name: {
@@ -50,7 +42,7 @@ export function userLayout() {
 // ╭─────────────────────────────────────────────────────────╮
 // │        PERTENECE A LA CATEGORIA DE COMPOSITIONS         │
 // ╰─────────────────────────────────────────────────────────╯
-function basicValidation(receviedValues, layout) {
+export function basicValidation(receviedValues, layout) {
   let errors = {};
 
   // valida que los datos recibidos tengan las propiedades de la estructura
@@ -86,7 +78,6 @@ function basicValidation(receviedValues, layout) {
 
     // lt(receviedValues[key], layout[key].lower) &&
     //   (errors[key] = lt(receviedValues[key], layout[key].lower));
-
   }
 
   // valida minimo y maximo de caracteres
@@ -161,13 +152,31 @@ export function isEmail(email) {
   return !emailRegex.test(email) ? "El correo no es un correo válido" : null;
 }
 
-export function lt(value, min) {
+export function lessThan(value, min) {
   return value < min ? `El valor debe ser mayor a ${min}` : null;
 }
-export function gt(value, max) {
+
+export function greatherThan(value, max) {
   return value > max ? `El valor debe ser menor a ${max}` : null;
 }
 
 export function isNegative(value) {
   return value < 0 ? `El valor no puede ser un numero negativo` : null;
+}
+
+export function isEqual(value1, value2, boolean) {
+  if (boolean) {
+    return value1 !== value2 ? `Los valores deben ser iguales` : null;
+  } else {
+    return value1 === value2 ? `Los valores no deben ser iguales` : null;
+  }
+}
+
+export function businessLogic(values) {
+  let businessErrors = {};
+  if (values.stock > 0 && values.price <= 0) {
+    // Un producto en stock NO puede tener precio cero.
+    businessErrors.price =
+      "Un producto con stock no puede tener un precio igual o menor a cero.";
+  }
 }
