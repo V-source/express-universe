@@ -28,7 +28,6 @@ export default class CreateProductUseCase {
 
     return await productCreated;
     } catch(error){
-      console.log(error)
     }
 
   }

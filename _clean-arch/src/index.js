@@ -2,7 +2,6 @@ import express from "express";
 import productEntity, {
   productLayout,
 } from "./domain2/entities/product.entity.js";
-import ProductRepository from "./domain/repositories/ProductReposisrory.js";
 import CreateProductUseCase from "./domain2/useCases/createProduct.js";
 import ProductDbRepository from "./domain2/application/DbRepository.js";
 
@@ -28,13 +27,18 @@ server.post("/products", async (req, res) => {
   if (producto) {
     return res.status(201).json({ msg: "Producto creado", data: producto });
   }
-  throw new Error("Producto no creadoooooo");
+  throw new Error("Producto no creadoooooo", {cause: {
+    status: 422,
+    errors: {
+    }
+  }});
 });
 
 // note: solo se estan manejando errores por ahora
 server.use((err, req, res, next) => {
-  console.log(err);
-  return res.status(422).json({ msg: err.message, errors: err.errors });
+  let status = err.cause.status || 500;
+  
+  return res.status(err.cause.status).json({ msg: err.message, errors: err.errors });
 });
 
 export default server;

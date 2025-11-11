@@ -10,5 +10,12 @@ export default defineConfig({
     environment: 'node', 
     // Opcional: Define archivos que se ejecutan antes de cada suite (setup files)
     // setupFiles: ['./vitest.setup.js'], 
+    exclude: ['**/node_modules/**'],
   },
 });
+
+
+// Q: como ejecutar tests unitarios y que son primeramente.
+//
+// Q: como ejectar tests por segmentos.
+// R: crea una carpeta test y dentro las carpetas unitarios e integracion

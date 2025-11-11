@@ -36,8 +36,8 @@ describe(descriptor("Servicio de productos"), () => {
       .set("Accept", "application/json");
     // ✅ Aserciones de Vitest
     expect(response.status).toBe(422);
-    console.log(response.status);
-    console.log(response.body);
+    // console.log(response.status);
+    // console.log(response.body);
   });
 
   it("should return an 201", async () => {
@@ -58,8 +58,8 @@ describe(descriptor("Servicio de productos"), () => {
 
     // ✅ Aserciones de Vitest
     expect(response.status).toBe(201);
-    console.log(response.status);
-    console.log(response.body);
+    // console.log(response.status);
+    // console.log(response.body);
 
     // expect(response.status).toBe(422);
     // if (response.status === 201) {

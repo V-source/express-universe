@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "test": "vitest",
+    "test:unit": "vitest run --watch ./_clean-arch/src/tests/unit",
     "mongoose": "node --watch ./_mongoose/src/index.js",
     "errors": "node --watch ./_errors/index.js",
     "lastmile": "node --watch ./last-mile/src/index.js",
