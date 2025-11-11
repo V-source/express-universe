@@ -21,7 +21,7 @@ export function createProductDbRepository() {
     },
 
     cleanProduct: (product) => {
-      return "Este metodo no cumple con el contrato";
+      return
     },
   };
 }

@@ -14,19 +14,26 @@ export function productRepository(implementation) {
     throw new Error("El repositorio debe ser un objeto");
   }
   const shouldDo = ["save", "findById", "updateProduct", "deleteProduct"];
-  const repository = { ...implementation };
+  const repository = {...implementation};
 
   shouldDo.map((e) => {
-    if (!(e in repository) || typeof repository[e] !== "function") {
+    if (!(e in implementation) || typeof repository[e] !== "function") {
       // repository[e] = () => {
       //   throw new Error(`El metodo ${e} no cumple con el contrato`);
       // };
       repository[e] = () => {
-      //   throw new Error(`El metodo ${e} no cumple con el contrato`);
+        throw new Error(`Este metodo no cumple con el contrato`);
         return "Este metodo no cumple con el contrato";
       };
     }
   });
+
+  // Object.keys(implementation).map((e) => {
+  //   if (!shouldDo.includes(e)) {
+  //     repository[e] = () => {throw new Error(`Este metodo no cumple con el contrato`)}
+  //   }
+  // })
+  console.log(repository);
 
   return repository;
 
