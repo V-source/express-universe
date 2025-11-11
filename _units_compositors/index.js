@@ -1,0 +1,141 @@
+// ╭─────────────────────────────────────────────────────────╮
+// │        PERTENECE A LA CATEGORIA DE COMPOSITIONS         │
+// ╰─────────────────────────────────────────────────────────╯
+export function basicValidation(receviedValues, layout) {
+  let errors = {};
+
+  // valida que los datos recibidos tengan las propiedades de la estructura
+  for (const prop in layout) {
+    getBadKeys(receviedValues, prop) &&
+      (errors[prop] = getBadKeys(receviedValues, prop));
+  }
+
+  for (const key in receviedValues) {
+    isNegative(receviedValues[key]) &&
+      (errors[key] = isNegative(receviedValues[key]));
+
+    for (const rule in layout[key]) {
+      isEmpty(receviedValues[key]) &&
+        (errors[key] = isEmpty(receviedValues[key]));
+
+      isType(receviedValues[key], layout[key].type) &&
+        (errors[key] = isType(receviedValues[key], layout[key].type));
+
+      // validar minimo y maximo de caracteres puede ir aqui tambien
+      minLength(receviedValues[key], layout[key].min) &&
+        (errors[key] = minLength(receviedValues[key], layout[key].min));
+
+      maxLength(receviedValues[key], layout[key].max) &&
+        (errors[key] = maxLength(receviedValues[key], layout[key].max));
+    }
+
+    itMatch(receviedValues[key], new RegExp(layout[key].match)) &&
+      (errors[key] = itMatch(
+        receviedValues[key],
+        new RegExp(layout[key].match),
+      ));
+
+    // lt(receviedValues[key], layout[key].lower) &&
+    //   (errors[key] = lt(receviedValues[key], layout[key].lower));
+  }
+
+  // valida minimo y maximo de caracteres
+  // for (const key in receviedValues) {
+  //   for (const rule in layout[key]) {
+  //     minLength(receviedValues[key], layout[key].min) &&
+  //       (errors[key] = minLength(receviedValues[key], layout[key].min));
+  //     maxLength(receviedValues[key], layout[key].max) &&
+  //       (errors[key] = maxLength(receviedValues[key], layout[key].max));
+  //   }
+  // }
+
+  // it match
+  // for (const key in receviedValues) {
+  //   for (const rule in layout[key]) {
+  //     itMatch(receviedValues[key], new RegExp(layout[key].match)) &&
+  //       (errors[key] = itMatch(
+  //         receviedValues[key],
+  //         new RegExp(layout[key].match),
+  //       ));
+  //   }
+  // }
+
+  return errors;
+}
+
+// ╭─────────────────────────────────────────────────────────╮
+// │           PERTENECEN A LA CATEGORIA DE UNITS            │
+// ╰─────────────────────────────────────────────────────────╯
+export function isEmpty(value) {
+  return value === "" || value === undefined ? "Este campo es obligario" : null;
+}
+
+export function isType(value, type) {
+  return typeof value !== type ? `El valor debe ser de tipo ${type}` : null;
+}
+
+export function isString(value) {
+  return typeof value !== "string" ? "El valor debe ser de tipo string" : null;
+}
+
+/*
+ * valida que los datos recibidos tengan las propiedades de la estructura
+ * @param object: objeto con los datos recibidos
+ * @param prop: propiedad de la estrucutra que debe tener
+ */
+export function getBadKeys(object, prop) {
+  return !Object.prototype.hasOwnProperty.call(object, prop)
+    ? `El campo ${prop} no existe y es requerido`
+    : null;
+}
+
+export function minLength(value, min) {
+  return value.length < min
+    ? `El campo debe tener al menos ${min} caracteres`
+    : null;
+}
+export function maxLength(value, max) {
+  return value.length > max
+    ? `El campo debe tener menos de ${max} caracteres`
+    : null;
+}
+export function itMatch(value, matchValue) {
+  // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return !matchValue.test(value)
+    ? "El campo no es válido de acuerdo a la regla"
+    : null;
+}
+
+export function isEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return !emailRegex.test(email) ? "El correo no es un correo válido" : null;
+}
+
+export function lessThan(value, min) {
+  return value < min ? `El valor debe ser mayor a ${min}` : null;
+}
+
+export function greatherThan(value, max) {
+  return value > max ? `El valor debe ser menor a ${max}` : null;
+}
+
+export function isNegative(value) {
+  return value < 0 ? `El valor no puede ser un numero negativo` : null;
+}
+
+export function isEqual(value1, value2, boolean) {
+  if (boolean) {
+    return value1 !== value2 ? `Los valores deben ser iguales` : null;
+  } else {
+    return value1 === value2 ? `Los valores no deben ser iguales` : null;
+  }
+}
+
+export function businessLogic(values) {
+  let businessErrors = {};
+  if (values.stock > 0 && values.price <= 0) {
+    // Un producto en stock NO puede tener precio cero.
+    businessErrors.price =
+      "Un producto con stock no puede tener un precio igual o menor a cero.";
+  }
+}
