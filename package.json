@@ -5,6 +5,7 @@
   "scripts": {
     "test": "vitest",
     "test:unit": "vitest run --watch ./_clean-arch/src/tests/unit",
+    "test:practice": "vitest run --watch ./__practice/src/tests",
     "practice": "node --watch ./__practice/src/index.js",
     "mongoose": "node --watch ./_mongoose/src/index.js",
     "errors": "node --watch ./_errors/index.js",
