@@ -1,4 +1,4 @@
-class UserRepository {
+export default class UserRepository {
   save() {
     throw new Error("Method not implemented.");
   }

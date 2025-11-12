@@ -1,10 +1,15 @@
-class CreateUserCase {
+import UserEntity from "../../domains/users/user.entity.js";
+
+export default class CreateUserCase {
   constructor(aplicationRepo) {
     this.userRepository = aplicationRepo;
   }
 
-  async execute({ id, name, email, password, age }) {
+  async execute({ id=null, name, email, password, age }) {
+    // implementar aqui toda las unidades o composiciones de validaciones que definiste en otros ejemplos
+    
     if (!name || !email || !password || !age) {
+      // implementar aqui la fabrica de errores http que definiste en otros ejemplos
       throw new Error("Todos los campos son obligatorios", {
         cause: {
           message: "Todos los campos son obligatorios",
@@ -23,8 +28,6 @@ class CreateUserCase {
       const userCreated = this.userRepository.save(user);
       return await userCreated;
     } catch (error) {}
-
     // imprimir en el logger
-    console.log(error);
   }
 }

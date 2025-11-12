@@ -1,7 +1,9 @@
-class DbRepository extends UserRepository{
+import UserRepository from "../../domains/users/repositories/user.repository.js";
 
-  save() {
-    return 'save'
+export default class DbRepository extends UserRepository{
+
+  save(user) {
+    return 'user saved'
   }
 
   findAll() {
