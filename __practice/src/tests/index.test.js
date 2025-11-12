@@ -1,9 +1,9 @@
 import request from "supertest";
 import server from "../index.js";
 function descriptor(str) {
-  let j = " ✪ ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ ✪ ";
-  let descritption = j.concat(str.toUpperCase()).concat(j);
-"✪ ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ ✪ ✪ ✪ ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ ✪ "
+  let j = " ✪ ▰▰▰▰▰ ";
+  let descritption = j.concat(str.toUpperCase())//.concat(j);
+// "✪ ▰▰▰▰▰▰ ✪ ▰▰▰▰▰ ✪ "
   return descritption;
   // return `******************* ${str.toUpperCase()} *******************`
 }
