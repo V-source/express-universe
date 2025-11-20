@@ -2,8 +2,8 @@ import UserRepository from "../../domains/users/repositories/user.repository.js"
 
 export default class DbRepository extends UserRepository{
 
-  save(user) {
-    return 'user saved'
+  async save(user) {
+    return  await user
   }
 
   findAll() {

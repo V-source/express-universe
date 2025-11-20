@@ -21,7 +21,7 @@ export function itStr(str) {
 }
 
 
-export function bodyResPrettier(resBody) {
+export function logTestResponse(resBody) {
   
     console.log("▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰");
     console.log(" cuerpo de la respuesta\n".toUpperCase());

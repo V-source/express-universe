@@ -1,14 +1,14 @@
 import request from "supertest";
 import server from "../index.js";
-import { bodyResPrettier, descriptor, itStr } from "./utils/index.js";
-const data = {
-  name: "name",
-  email: "email",
-  password: "password",
-  age: 18,
-};
+import { logTestResponse, descriptor, itStr } from "./utils/index.js";
 
-describe(descriptor("Servicio de usuarios de express js"), () => {
+describe(descriptor("Servicio: Crear usuarios de express js"), () => {
+  const data = {
+    name: "name",
+    email: "email",
+    password: "password",
+    age: 18,
+  };
   it(itStr("should return an 201 message"), async () => {
     const response = await request(server)
       .post("/users")
@@ -23,11 +23,7 @@ describe(descriptor("Servicio de usuarios de express js"), () => {
       .set("Accept", "application/json");
     // ✅ Aserciones de Vitest
     expect(response.status).toBeOneOf([201, 400, 500]);
-    bodyResPrettier(response.body);
-    // console.log("▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰");
-    // console.log(" cuerpo de la respuesta\n".toUpperCase());
-    // console.log(response.body);
-    // console.log("▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰");
+    // logTestResponse(response.body);
   });
 
   it(
@@ -50,4 +46,26 @@ describe(descriptor("Servicio de usuarios de express js"), () => {
       expect(response.body).toHaveProperty("age");
     },
   );
+
+  it(itStr("deber reponder un error si la edad es menor a 18"), async () => {
+    const lessThan18Data = {
+      name: "name",
+      email: "email",
+      password: "password",
+      age: 17,
+    };
+    const response = await request(server)
+      .post("/users")
+
+      .send(lessThan18Data)
+
+      .expect("Content-Type", /json/)
+
+      // Envía el header Accept (opcional, pero buena práctica)
+      .set("Accept", "application/json");
+
+    expect(response.body).toBeOneOf([{ message: "Age must be greater than 18" }, {message: "Internal Server Error", errors: null}]);
+    console.log(response.statusCode)
+    logTestResponse(response.body);
+  });
 });
